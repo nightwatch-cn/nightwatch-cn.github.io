@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-minimal.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="一、数据库概念&amp;安装1、什么是数据库呢？顾名思义，就是存储数据的仓库 我们不需要去关注数据的存储格式，我们需要关注的是如何对存储的数据进行增删改查操作 学习重点：增删改查的SQL语句 Sql：  添加：insert into 修改：update 删除：delete 查询：select  2、数据库相关概念1、数据库服务器： ​    如果我们想写sql，必须先安装数据库服务器 分类：  关">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库">
+<meta property="og:url" content="http://example.com/2021/08/13/day02%E7%AC%94%E8%AE%B0%20(2)/index.html">
+<meta property="og:site_name" content="夏天冰的博客">
+<meta property="og:description" content="一、数据库概念&amp;安装1、什么是数据库呢？顾名思义，就是存储数据的仓库 我们不需要去关注数据的存储格式，我们需要关注的是如何对存储的数据进行增删改查操作 学习重点：增删改查的SQL语句 Sql：  添加：insert into 修改：update 删除：delete 查询：select  2、数据库相关概念1、数据库服务器： ​    如果我们想写sql，必须先安装数据库服务器 分类：  关">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-13T03:30:35.237Z">
+<meta property="article:modified_time" content="2021-08-13T04:44:27.164Z">
+<meta property="article:author" content="夏天冰">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2021/08/13/day02%E7%AC%94%E8%AE%B0%20(2)/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>数据库 | 夏天冰的博客</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+<link rel="alternate" href="/rss2.xml" title="夏天冰的博客" type="application/rss+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">夏天冰的博客</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-schedule">
+
+    <a href="/schedule/" rel="section"><i class="fa fa-calendar fa-fw"></i>日程表</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>站点地图</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2021/08/13/day02%E7%AC%94%E8%AE%B0%20(2)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="夏天冰">
+      <meta itemprop="description" content="少壮不努力，老大模拟器">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="夏天冰的博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据库
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-08-13 11:30:35 / 修改时间：12:44:27" itemprop="dateCreated datePublished" datetime="2021-08-13T11:30:35+08:00">2021-08-13</time>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>6.4k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>6 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h2 id="一、数据库概念-amp-安装"><a href="#一、数据库概念-amp-安装" class="headerlink" title="一、数据库概念&amp;安装"></a>一、数据库概念&amp;安装</h2><h3 id="1、什么是数据库呢？"><a href="#1、什么是数据库呢？" class="headerlink" title="1、什么是数据库呢？"></a>1、什么是数据库呢？</h3><p>顾名思义，就是存储数据的仓库</p>
+<p>我们不需要去关注数据的存储格式，我们需要关注的是如何对存储的数据进行增删改查操作</p>
+<p>学习重点：增删改查的SQL语句</p>
+<p>Sql：</p>
+<ul>
+<li>添加：insert into</li>
+<li>修改：update</li>
+<li>删除：delete</li>
+<li>查询：select</li>
+</ul>
+<h3 id="2、数据库相关概念"><a href="#2、数据库相关概念" class="headerlink" title="2、数据库相关概念"></a>2、数据库相关概念</h3><p><strong>1、数据库服务器：</strong></p>
+<p>​    如果我们想写sql，必须先安装数据库服务器</p>
+<p>分类：</p>
+<ul>
+<li><p>关系型数据库</p>
+<p>mysql、oracle、sqlserver、db2</p>
+</li>
+<li><p>非关系型数据库</p>
+<p>redis、mongodb…</p>
+</li>
+</ul>
+<p>学习：mysql数据库</p>
+<p>安装mysql服务器、卸载(见视频)</p>
+<p>安装后如何登陆：</p>
+<ul>
+<li><p>搜索mysql，点进去直接输入密码，如果显示welecome…，则代表安装且登陆成功</p>
+</li>
+<li><p>点击cmd进去，输入</p>
+<p>mysql -uroot -p1234</p>
+<p>所有人的用户名都是root</p>
+<p>密码：安装时设置的密码</p>
+</li>
+</ul>
+<p><strong>2、连接数据库的图形化界面</strong></p>
+<p>常用的两种：</p>
+<ul>
+<li>sqlyog</li>
+<li>navicat</li>
+</ul>
+<p>安装</p>
+<p><strong>3、数据库&amp;数据表概念</strong></p>
+<p><strong>数据库</strong>：相当于文件夹的概念</p>
+<p>开发一个小米商城：为小米商城创建一个叫xiaomi 数据库，商城中涉及的用户数据、商品数据、订单数据…都可以存在 该数据库中</p>
+<p>开发医疗系统：</p>
+<p>​      为医疗系统也创建一个数据库：xx</p>
+<p><strong>数据表</strong>：相当于文件的概念，用来直接存储数据</p>
+<p>一个数据库对应多张数据表</p>
+<p>问：数据表存储数据的形式是什么？？？？</p>
+<p>​      数据是由行和列组成 ，和excel表格数据形式一样</p>
+<h2 id="二、SQL"><a href="#二、SQL" class="headerlink" title="二、SQL"></a>二、SQL</h2><p>分类：</p>
+<ul>
+<li>DDL</li>
+<li>DML(2成)</li>
+<li>DQL(8成)</li>
+<li>DCL(不用)</li>
+</ul>
+<h3 id="1、DDL"><a href="#1、DDL" class="headerlink" title="1、DDL"></a>1、DDL</h3><p>特点：针对的是结构上的变化</p>
+<p><strong>1、操作数据库的SQL</strong></p>
+<ul>
+<li>创建数据库：</li>
+</ul>
+<p>格式：create   database  数据库名;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE DATABASE jd;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>选中/切换数据库</li>
+</ul>
+<p>格式：use  数据库名;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">use xiaomi;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>删除数据库</li>
+</ul>
+<p>格式：drop  database  数据库名;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP DATABASE jd;</span><br></pre></td></tr></table></figure>
+
+<p><strong>2、操作数据表的SQL</strong></p>
+<ul>
+<li>创建数据表</li>
+</ul>
+<p>格式：</p>
+<p>​    create  table 表名(</p>
+<p>​       字段1  类型(长度),</p>
+<pre><code>   字段2  类型(长度),
+</code></pre>
+<p>   )</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE student(</span><br><span class="line">   sno INT(20),</span><br><span class="line">   sname VARCHAR(20),</span><br><span class="line">   age INT(5),</span><br><span class="line">   birthday DATE</span><br><span class="line">)</span><br><span class="line">类型：</span><br><span class="line">  整数：int</span><br><span class="line">  字符串：varchar</span><br><span class="line">  日期：date</span><br><span class="line">  小数：double</span><br></pre></td></tr></table></figure>
+
+
+
+<ul>
+<li>删除数据表</li>
+</ul>
+<p>格式：drop table 表名;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DROP TABLE student;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>查看表结构</li>
+</ul>
+<p>格式：desc 表名;</p>
+<h3 id="2、DML"><a href="#2、DML" class="headerlink" title="2、DML"></a>2、DML</h3><p>特点：结构不变，但是数据发生了变化</p>
+<p><strong>1、添加操作</strong></p>
+<p>格式：insert into 表名(字段1,字段2…)   values(值1，值2…)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#给所有的字段插入值</span><br><span class="line">INSERT INTO student(sno,sname,age,birthday)VALUES(1,&#x27;八戒&#x27;,18,&quot;1991-10-10&quot;);</span><br><span class="line">#表名后不跟字段，默认是向所有字段中插入值</span><br><span class="line">INSERT INTO student VALUES(2,&#x27;悟空&#x27;,18,&quot;1996-10-10&quot;);</span><br><span class="line">#失败 字段的个数和值的个数不匹配</span><br><span class="line">INSERT INTO student VALUES(3,&#x27;唐僧&#x27;,22);</span><br><span class="line">#给指定字段插入值</span><br><span class="line">INSERT INTO student(sno,sname,age) VALUES(3,&#x27;唐僧&#x27;,22);</span><br><span class="line">INSERT INTO student(sno,sname) VALUES(4,&#x27;小白龙&#x27;);</span><br><span class="line"></span><br><span class="line">#字段和值顺序不匹配</span><br><span class="line">INSERT INTO student(sno,sname) VALUES(&#x27;小白龙&#x27;,12);</span><br></pre></td></tr></table></figure>
+
+<p>结论：</p>
+<ul>
+<li>插入字段的个数必须和值的个数匹配</li>
+<li>插入字段的顺序必须和值的顺序匹配</li>
+</ul>
+<p><strong>2、修改操作</strong></p>
+<p>格式：update  表名   set  字段1=值1,字段2=值2</p>
+<p>全部修改：将所有行的数据的sname修改为了”小白龙”</p>
+<p>全部修改用的比较少</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UPDATE student SET sname = &#x27;小白龙&#x27;;</span><br></pre></td></tr></table></figure>
+
+<p>条件修改：</p>
+<p>​    update  表名   set  字段1=值1,字段2=值2 where 条件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#将sno为1的用户名字修改为八戒</span><br><span class="line">UPDATE student SET sname = &quot;八戒&quot; WHERE sno = 1;</span><br><span class="line"></span><br><span class="line">#将sno为3的用户名字修改为悟空、年龄修改为30</span><br><span class="line">UPDATE student SET sname=&#x27;悟空&#x27;,age = 30 WHERE sno = 3;</span><br></pre></td></tr></table></figure>
+
+<p>修改时注意：</p>
+<ul>
+<li>确定要修改的字段有哪些</li>
+<li>确定修改的条件是什么</li>
+</ul>
+<p><strong>3、删除操作</strong></p>
+<p>删除所有数据：</p>
+<p>​    格式：delete  from  表名；</p>
+<p>根据条件删除：</p>
+<p>​    格式：delete  from  表名  where 条件；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#将名字为小白龙的用户删掉</span><br><span class="line">DELETE FROM student WHERE sname = &#x27;小白龙&#x27;;</span><br><span class="line">#全部删除</span><br><span class="line">DELETE FROM student;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>问题：truncate和delete的区别</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#执行结果：将所有数据删掉了，但显示0 row被影响</span><br><span class="line">TRUNCATE student;</span><br><span class="line"></span><br><span class="line">#执行结果：将所有数据删掉了，但显示9 row被影响</span><br><span class="line">delete from student;</span><br></pre></td></tr></table></figure>
+
+<p>delete：</p>
+<p>​     只是将表中所有的数据给删掉了，但是表结构还在</p>
+<p>truncate：</p>
+<p>​    将整张表删除，然后重新创建一张结构一样的新表     表结构改变了</p>
+<h3 id="3、DQL"><a href="#3、DQL" class="headerlink" title="3、DQL"></a>3、DQL</h3><p>特点：结构不变，数据也不变</p>
+<p>只是一个查询的操作</p>
+<p><strong>查询所有数据：</strong></p>
+<p>​    格式：select  *   from  表名;</p>
+<p>​    *：查询所有字段</p>
+<p><strong>查询指定的字段：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT sname FROM student;</span><br><span class="line">SELECT sname,birthday FROM student;</span><br></pre></td></tr></table></figure>
+
+<p><strong>别名查询：</strong></p>
+<p>格式： 字段   as  别名  ，as 可以省略</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT sname AS &#x27;姓名&#x27;,birthday AS &#x27;生日&#x27; FROM student;</span><br><span class="line">SELECT sname  &#x27;姓名&#x27;,birthday  &#x27;生日&#x27; FROM student;</span><br></pre></td></tr></table></figure>
+
+<p><strong>根据条件查询</strong>：</p>
+<p>格式：select  *   from  表名 where  条件;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM student WHERE sname = &#x27;悟空&#x27;;</span><br><span class="line">SELECT * FROM student WHERE age &gt; 15;</span><br><span class="line">SELECT * FROM student WHERE age &gt; 15 AND sname = &#x27;悟空&#x27;;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>练习题：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#创建员工表</span><br><span class="line">CREATE TABLE emp (</span><br><span class="line">id INT,</span><br><span class="line">NAME VARCHAR(10),</span><br><span class="line">gender CHAR(1), </span><br><span class="line">salary DOUBLE,</span><br><span class="line">join_date DATE, </span><br><span class="line">dept_name VARCHAR(32)</span><br><span class="line">);</span><br><span class="line">INSERT INTO emp VALUES(1,&#x27;孙悟空&#x27;,&#x27;男&#x27;,7200,&#x27;2013-02-04&#x27;,&#x27;教学部&#x27;);</span><br><span class="line">INSERT INTO emp VALUES(2,&#x27;猪八戒&#x27;,&#x27;男&#x27;,3600,&#x27;2010-12-02&#x27;,&#x27;教学部&#x27;);</span><br><span class="line">INSERT INTO emp VALUES(3,&#x27;唐僧&#x27;,&#x27;男&#x27;,9000,&#x27;2008-08-08&#x27;,&#x27;教学部&#x27;);</span><br><span class="line">INSERT INTO emp VALUES(4,&#x27;白骨精&#x27;,&#x27;女&#x27;,5000,&#x27;2015-10-07&#x27;,&#x27;市场部&#x27;);</span><br><span class="line">INSERT INTO emp VALUES(5,&#x27;蜘蛛精&#x27;,&#x27;女&#x27;,5000,&#x27;2011-03-14&#x27;,&#x27;市场部&#x27;);</span><br><span class="line">INSERT INTO emp VALUES(6,&#x27;玉兔精&#x27;,&#x27;女&#x27;,200,&#x27;2000-03-14&#x27;,&#x27;市场部&#x27;);</span><br><span class="line">INSERT INTO emp VALUES(7,&#x27;林黛玉&#x27;,&#x27;女&#x27;,10000,&#x27;2019-10-07&#x27;,&#x27;财务部&#x27;);</span><br><span class="line">INSERT INTO emp VALUES(8,&#x27;黄蓉&#x27;,&#x27;女&#x27;,3500,&#x27;2011-09-14&#x27;,&#x27;财务部&#x27;);</span><br><span class="line">INSERT INTO emp VALUES(9,&#x27;吴承恩&#x27;,&#x27;男&#x27;,20000,&#x27;2000-03-14&#x27;,NULL);</span><br></pre></td></tr></table></figure>
+
+<p>知识点：</p>
+<ul>
+<li><p>and：  并且，需要同时满足</p>
+</li>
+<li><p>between   A   and   B 求某一个区间的值     &gt;=A  &lt;=B</p>
+</li>
+<li><p>or： 或者</p>
+</li>
+<li><p>in  ： 后边跟集合      满足集合中任一条件即可</p>
+</li>
+<li><p>模糊查询    关键字：like</p>
+<p>%： 多个任意字符    </p>
+<p>like ‘李%’、like  ‘%精’ 、 ‘%红楼%’</p>
+<p>_：一个占位符 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">like &#x27;_兔%&#x27;;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<blockquote>
+<p>#查询员工姓名为黄蓉的员工信息：</p>
+<p>#查询薪水价格为5000的员工信息</p>
+<p>#查询薪水价格不是5000的所有员工信息</p>
+<p>#查询薪水价格大于6000元的所有员工信息</p>
+<p>#查询薪水价格在5000到10000之间所有员工信息</p>
+<p>#查询薪水价格是3600或7200或者20000的所有员工信息</p>
+<p>#查询含有’精’字的所有员工信息</p>
+<p>#查询以’孙’开头的所有员工信息</p>
+<p>#查询第二个字为’兔’的所有员工信息</p>
+<p>#查询没有部门的员工信息</p>
+<p>#查询有部门的员工信息 </p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">#查询员工姓名为黄蓉的员工信息：</span><br><span class="line">SELECT * FROM emp WHERE NAME = &#x27;黄蓉&#x27;;</span><br><span class="line">#查询薪水价格为5000的员工信息</span><br><span class="line">SELECT * FROM emp WHERE salary = 5000;</span><br><span class="line">#查询薪水价格不是5000的所有员工信息</span><br><span class="line">SELECT * FROM emp WHERE salary != 5000;</span><br><span class="line">SELECT * FROM emp WHERE salary &lt;&gt; 5000;</span><br><span class="line">#查询薪水价格大于6000元的所有员工信息</span><br><span class="line">SELECT * FROM emp WHERE salary &gt; 6000;</span><br><span class="line">#查询薪水价格在5000到10000之间所有员工信息</span><br><span class="line">SELECT * FROM emp WHERE salary &gt;= 5000 &amp;&amp; salary &lt;=10000;</span><br><span class="line">SELECT * FROM emp WHERE salary &gt;= 5000 AND salary &lt;=10000;</span><br><span class="line">SELECT * FROM emp WHERE salary BETWEEN 5000 AND 10000;</span><br><span class="line">#查询薪水价格是3600或7200或者20000的所有员工信息</span><br><span class="line">SELECT * FROM emp WHERE salary = 3600 || salary = 7200 || salary = 20000;</span><br><span class="line">SELECT * FROM emp WHERE salary = 3600 OR salary = 7200 OR salary = 20000;</span><br><span class="line">SELECT * FROM emp WHERE salary IN(3600,7200,20000);</span><br><span class="line">#查询含有&#x27;精&#x27;字的所有员工信息</span><br><span class="line">SELECT * FROM emp WHERE NAME LIKE &#x27;%精%&#x27;</span><br><span class="line"></span><br><span class="line">#查询以&#x27;孙&#x27;开头的所有员工信息</span><br><span class="line">SELECT * FROM emp WHERE NAME LIKE &#x27;孙%&#x27;;</span><br><span class="line"></span><br><span class="line">#查询第二个字为&#x27;兔&#x27;的所有员工信息</span><br><span class="line">SELECT * FROM emp WHERE NAME LIKE &#x27;_兔%&#x27;;</span><br><span class="line">#查询第3个字为&#x27;玉&#x27;的所有员工信息</span><br><span class="line">SELECT * FROM emp WHERE NAME LIKE &#x27;__玉%&#x27;;</span><br><span class="line">#查询没有部门的员工信息</span><br><span class="line">SELECT * FROM emp WHERE dept_name IS NULL;</span><br><span class="line">#查询有部门的员工信息 </span><br><span class="line">SELECT * FROM emp WHERE dept_name IS NOT NULL;</span><br></pre></td></tr></table></figure>
+
+<h2 id="三、其它查询"><a href="#三、其它查询" class="headerlink" title="三、其它查询"></a>三、其它查询</h2><h3 id="1、聚合查询"><a href="#1、聚合查询" class="headerlink" title="1、聚合查询"></a>1、聚合查询</h3><p>针对列去查询</p>
+<ul>
+<li><p>count()    查询记录个数</p>
+<p>不统计值为null的信息</p>
+</li>
+<li><p>max()   查询最大值</p>
+</li>
+<li><p>min()   查询最小值</p>
+</li>
+<li><p>sum()   查询和</p>
+</li>
+<li><p>avg()    查询平均数</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#查询员工的记录数</span><br><span class="line">SELECT COUNT(*) FROM emp;</span><br><span class="line">SELECT COUNT(id) FROM emp;</span><br><span class="line">SELECT COUNT(dept_name) FROM emp;</span><br><span class="line">#查询最高工资</span><br><span class="line">SELECT MAX(salary) FROM emp;</span><br><span class="line"></span><br><span class="line">SELECT MIN(salary) FROM emp;</span><br><span class="line">SELECT SUM(salary) FROM emp;</span><br><span class="line">SELECT AVG(salary) FROM emp;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、排序"><a href="#2、排序" class="headerlink" title="2、排序"></a>2、排序</h3><p>关键字：order  by  字段    asc/desc</p>
+<p>分类：</p>
+<ul>
+<li>升序           asc    默认是升序</li>
+<li>降序           desc</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#查询薪资从高到低的员工信息</span><br><span class="line">SELECT * FROM emp ORDER BY salary DESC;</span><br><span class="line"></span><br><span class="line">#查询薪资从低到高的员工信息</span><br><span class="line">SELECT * FROM emp ORDER BY salary ASC;</span><br><span class="line">SELECT * FROM emp ORDER BY salary;</span><br><span class="line">#多级排序 </span><br><span class="line">SELECT * FROM emp ORDER BY salary DESC,join_date ASC;</span><br><span class="line">注意：多级排序中，只有第一级排序值相等的情况下，才会进行下一级排序</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="3、分组"><a href="#3、分组" class="headerlink" title="3、分组"></a>3、分组</h3><p>关键字：group  by  字段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#查询每个部门的平均薪资</span><br><span class="line">SELECT dept_name,AVG(salary) FROM emp GROUP BY dept_name;</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、分页"><a href="#4、分页" class="headerlink" title="4、分页"></a>4、分页</h3><p>关键字： limit   参数1，参数2</p>
+<p>参数1：起始索引    从0开始</p>
+<p>参数2：每页显示的条数  (这个值一般是固定的)</p>
+<p><strong>第一个计算公式：</strong></p>
+<p>​    起始索引 =  (当前页 - 1) * 每页显示的条数(参数2)</p>
+<p>问题：当前页的值从哪来？？</p>
+<p>​        从页面上点击分页条时，将当前页值传过来</p>
+<p><strong>第二个计算公式：</strong></p>
+<p>​     总页数 =  总记录数  % 每页显示的条数  == 0  ?  (总记录数 / 每页显示的条数)</p>
+<p>​                      ： (总记录数 / 每页显示的条数 + 1)</p>
+<p>例子：9 / 3 = 3页       10/3 = 3页  + 1  = 4页</p>
+<p>问题：总记录数如何求</p>
+<p>​       select  count(*) from 表名;</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#每页显示3条数据</span><br><span class="line"></span><br><span class="line">#查询第一页</span><br><span class="line">SELECT * FROM emp LIMIT 0,3;</span><br><span class="line">#查询第二页</span><br><span class="line">SELECT * FROM emp LIMIT 3,3;</span><br><span class="line">#查询第三页</span><br><span class="line">SELECT * FROM emp LIMIT 6,3;</span><br><span class="line">#查询第四页</span><br><span class="line">SELECT * FROM emp LIMIT 9,3;</span><br></pre></td></tr></table></figure>
+
+<h2 id="四、约束"><a href="#四、约束" class="headerlink" title="四、约束"></a>四、约束</h2><p>作用：为了保证数据的正确性、有效性、完整性</p>
+<p>需要给字段去加约束</p>
+<h3 id="1、主键约束"><a href="#1、主键约束" class="headerlink" title="1、主键约束"></a>1、主键约束</h3><p>关键字：primary key </p>
+<p>特点：唯一且不能为空</p>
+<p>作用：唯一的去标识某一条数据</p>
+<p>自增策略：</p>
+<p>​    关键字：AUTO_INCREMENT     无需我们手动的管理主键的值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uid INT(11) PRIMARY KEY AUTO_INCREMENT,</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、唯一约束"><a href="#2、唯一约束" class="headerlink" title="2、唯一约束"></a>2、唯一约束</h3><p>关键字：unique</p>
+<p>特点：唯一(值不能重复)     但是可以为空</p>
+<p>主键在表中只能有一个，但是唯一约束可以有多个</p>
+<h3 id="3、非空约束"><a href="#3、非空约束" class="headerlink" title="3、非空约束"></a>3、非空约束</h3><p>关键字：not null</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE USER(</span><br><span class="line">   uid INT(11) PRIMARY KEY AUTO_INCREMENT,</span><br><span class="line">   uname VARCHAR(20) UNIQUE,</span><br><span class="line">   pwd VARCHAR(30) NOT NULL,</span><br><span class="line">   address VARCHAR(50)</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+ 
+   <div>
+     <div>
+    
+        <div style="text-align:center;color: #ccc;font-size:24px;">-------------本文结束<i class="fa fa-paw"></i>感谢您的阅读-------------</div>
+    
+</div>
+   </div>
+ 
+        <div class="reward-container">
+  <div></div>
+  <button onclick="var qr = document.getElementById('qr'); qr.style.display = (qr.style.display === 'none') ? 'block' : 'none';">
+    打赏
+  </button>
+  <div id="qr" style="display: none;">
+      
+      <div style="display: inline-block;">
+        <img src="/images/wechatpay.png" alt="夏天冰 微信支付">
+        <p>微信支付</p>
+      </div>
+      
+      <div style="display: inline-block;">
+        <img src="/images/alipay.png" alt="夏天冰 支付宝">
+        <p>支付宝</p>
+      </div>
+
+  </div>
+</div>
+
+        
+
+<div>
+<ul class="post-copyright">
+  <li class="post-copyright-author">
+    <strong>本文作者： </strong>夏天冰
+  </li>
+  <li class="post-copyright-link">
+    <strong>本文链接：</strong>
+    <a href="http://example.com/2021/08/13/day02%E7%AC%94%E8%AE%B0%20(2)/" title="数据库">http://example.com/2021/08/13/day02笔记 (2)/</a>
+  </li>
+  <li class="post-copyright-license">
+    <strong>版权声明： </strong>本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="noopener" target="_blank"><i class="fab fa-fw fa-creative-commons"></i>BY-NC-SA</a> 许可协议。转载请注明出处！
+  </li>
+</ul>
+</div>
+
+        
+
+  <div class="followme">
+    <p>欢迎关注我的其它发布渠道</p>
+
+    <div class="social-list">
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://twitter.com/username">
+            <span class="icon">
+              <i class="fab fa-twitter"></i>
+            </span>
+
+            <span class="label">Twitter</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="https://t.me/channel_name">
+            <span class="icon">
+              <i class="fab fa-telegram"></i>
+            </span>
+
+            <span class="label">Telegram</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/images/wechat_channel.jpg">
+            <span class="icon">
+              <i class="fab fa-weixin"></i>
+            </span>
+
+            <span class="label">WeChat</span>
+          </a>
+        </div>
+
+        <div class="social-item">
+          <a target="_blank" class="social-link" href="/atom.xml">
+            <span class="icon">
+              <i class="fa fa-rss"></i>
+            </span>
+
+            <span class="label">RSS</span>
+          </a>
+        </div>
+    </div>
+  </div>
+
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/12/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/13/Spring/" rel="next" title="spring">
+      spring <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E6%A6%82%E5%BF%B5-amp-%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">一、数据库概念&amp;安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E5%BA%93%E5%91%A2%EF%BC%9F"><span class="nav-number">1.1.</span> <span class="nav-text">1、什么是数据库呢？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.</span> <span class="nav-text">2、数据库相关概念</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81SQL"><span class="nav-number">2.</span> <span class="nav-text">二、SQL</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81DDL"><span class="nav-number">2.1.</span> <span class="nav-text">1、DDL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81DML"><span class="nav-number">2.2.</span> <span class="nav-text">2、DML</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81DQL"><span class="nav-number">2.3.</span> <span class="nav-text">3、DQL</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E5%85%B6%E5%AE%83%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.</span> <span class="nav-text">三、其它查询</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E8%81%9A%E5%90%88%E6%9F%A5%E8%AF%A2"><span class="nav-number">3.1.</span> <span class="nav-text">1、聚合查询</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E6%8E%92%E5%BA%8F"><span class="nav-number">3.2.</span> <span class="nav-text">2、排序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E5%88%86%E7%BB%84"><span class="nav-number">3.3.</span> <span class="nav-text">3、分组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4%E3%80%81%E5%88%86%E9%A1%B5"><span class="nav-number">3.4.</span> <span class="nav-text">4、分页</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.</span> <span class="nav-text">四、约束</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%E3%80%81%E4%B8%BB%E9%94%AE%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.1.</span> <span class="nav-text">1、主键约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%E3%80%81%E5%94%AF%E4%B8%80%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.2.</span> <span class="nav-text">2、唯一约束</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3%E3%80%81%E9%9D%9E%E7%A9%BA%E7%BA%A6%E6%9D%9F"><span class="nav-number">4.3.</span> <span class="nav-text">3、非空约束</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="夏天冰"
+      src="/images/avatar.gif">
+  <p class="site-author-name" itemprop="name">夏天冰</p>
+  <div class="site-description" itemprop="description">少壮不努力，老大模拟器</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">5</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/nightwatch-cn" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;nightwatch-cn" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wjhsdg6359@gmail.com" title="E-Mail → mailto:wjhsdg6359@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2020.02 – 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">夏天冰</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+    <span title="站点总字数">75k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">1:08</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a> 强力驱动
+  </div>
+<div class="theme-info">
+  <div class="powered-by"></div>
+  <span class="post-count">博客全站共18k字</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  
+  <script color='0,0,255' opacity='0.5' zIndex='-1' count='99' src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
